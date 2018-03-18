@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MonitorApp</string>
+
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Change the following strings as required -->
+    <string name="back4app_app_id">Tq5HJvSYyTOQDdwjFWVV5GCY6Fk3XoQoA8At6vE2</string>
+    <string name="back4app_client_key">6EX9DREop8Gdqxb45NscG0tpwDKOyJwGfaKQB77R</string>
+
 </resources>
