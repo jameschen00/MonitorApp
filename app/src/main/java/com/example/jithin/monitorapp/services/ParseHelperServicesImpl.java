@@ -4,11 +4,13 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.jithin.monitorapp.model.Patient;
 import com.example.jithin.monitorapp.repository.ParseHelperRepository;
 import com.example.jithin.monitorapp.repository.ParseHelperRepositoryImpl;
 import com.example.jithin.monitorapp.repository.PatientRepositoryImpl;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 /**
@@ -31,6 +33,13 @@ public class ParseHelperServicesImpl implements ParseHelperServices{
     public String getUserType(ParseUser object, ParseException e) {
         return parseHelperRepository.getUserType(object,e);
     }
+
+
+    @Override
+    public Patient getPatientDetails(ParseObject object, ParseException e) {
+        return parseHelperRepository.getPatientDetails(object,e);
+    }
+
 
 
 }

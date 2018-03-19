@@ -3,6 +3,7 @@ package com.example.jithin.monitorapp.services;
 import android.content.Context;
 
 import com.example.jithin.monitorapp.repository.PatientRepositoryImpl;
+import com.parse.ParseUser;
 
 /**
  * Created by Master on 3/19/2018.
@@ -27,6 +28,11 @@ public class PatientServiceImpl implements PatientService {
     public void uploadSurveyDataSecond(String objid, String headPoint, String nauseaPoint, String fatiguePoint, String faintingPoint, String dizzPoint, String pressurePoint, String spinnerData) {
         patientRepository.uploadSurveyDataSecond(objid,headPoint,
                 nauseaPoint,fatiguePoint,faintingPoint,dizzPoint,pressurePoint,spinnerData);
+    }
+
+    @Override
+    public void calculateTDEE(ParseUser user) {
+        patientRepository.calculateTDEE(user);
     }
 
 }

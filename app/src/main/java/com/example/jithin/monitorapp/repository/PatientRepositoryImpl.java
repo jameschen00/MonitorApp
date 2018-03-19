@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.jithin.monitorapp.model.Patient;
 import com.example.jithin.monitorapp.patient.PatientHomeActivity;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -55,7 +56,7 @@ public class PatientRepositoryImpl implements PatientRepository {
 
 
                     // calling another class
-                    parseHelperRepository.CalculateRiskFactor();
+                    parseHelperRepository.calculateRiskFactor();
 
 
                     // TODO: 3/1/2018 navigate to home
@@ -107,6 +108,7 @@ public class PatientRepositoryImpl implements PatientRepository {
 
                     Log.i(TAG, "done: data saved");
 
+
                     // set up thread
 
 
@@ -121,6 +123,38 @@ public class PatientRepositoryImpl implements PatientRepository {
 
             }
         });
+
+    }
+
+    /**
+     * calculation total energy exp of user
+     * @param user
+     */
+    @Override
+    public void calculateTDEE(ParseUser user) {
+
+        // parseHelper = new ParseHelper();
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("UserDetails");
+
+        // TODO: 3/1/2018 user may cause some problem you should check later
+        query.whereEqualTo("user", user);
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+
+                if (e == null) {
+                    Patient patient = parseHelperRepository.getPatientDetails(object, e);
+                    parseHelperRepository.calculateTotalEnergyExp(patient);
+
+                } else {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+
 
     }
 }

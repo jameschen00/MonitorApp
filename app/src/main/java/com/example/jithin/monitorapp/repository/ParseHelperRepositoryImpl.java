@@ -165,7 +165,7 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
      * calculate risk factor
      */
     @Override
-    public void CalculateRiskFactor() {
+    public void calculateRiskFactor() {
        // parseHelper = new ParseHelper();
         final ParseQuery<ParseObject> query = ParseQuery.getQuery("UserDetails");
 
@@ -184,6 +184,112 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
                     Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
+
+            }
+        });
+    }
+
+
+    /**
+     * calculating total energy exp
+     * @param patient
+     */
+   /* @Override*/
+    public void calculateTotalEnergyExp(Patient patient) {
+
+        int num = patient.getPatient_age();
+        int height = patient.getPatient_height();
+         int weight = patient.getPatient_weight();
+
+        final float BMR;
+        BMR = (float) (66 + (1.37 * weight) + (5 * height) - (6.8 * num));
+
+        Log.i(TAG, "totalEnergyExp: " + BMR);
+
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Survey");
+        parseQuery.whereEqualTo("owner", ParseUser.getCurrentUser().getUsername());
+        parseQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+
+                    String userWork = object.getString("work");
+                    String objid = object.getString("objid");
+
+                    tDEEMATH(objid, BMR, userWork);
+
+                } else {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
+    /**
+     * calculation goes on here
+     * @param objid
+     * @param BMR
+     * @param userWork
+     */
+    private void tDEEMATH(String objid, float BMR, String userWork) {
+
+        double tDEE = 0;
+
+
+        if (userWork.equals("Sedantary")) {
+
+            tDEE = BMR * 1.2;
+
+
+        } else if (userWork.equals("Lightly Active")) {
+
+            tDEE = BMR * 1.375;
+        } else if (userWork.equals("Moderatively Active")) {
+
+            tDEE = BMR * 1.55;
+        } else if (userWork.equals("Very Active")) {
+
+            tDEE = BMR * 1.725;
+        } else if (userWork.equals("Extremely Active")) {
+
+            tDEE = BMR * 1.79;
+        } else {
+            Toast.makeText(mContext, ".....", Toast.LENGTH_SHORT).show();
+        }
+
+        Log.i(TAG, "tDEEMATH: " + tDEE);
+
+
+        saveTdee(objid, tDEE);
+
+    }
+
+
+    /**
+     * saving this into server
+     * @param objid
+     * @param tDEE
+     */
+    private void saveTdee(String objid, final double tDEE) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Survey");
+        query.getInBackground(objid, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+
+                if (e == null) {
+
+                    object.put("TDEE", tDEE);
+                    object.saveInBackground();
+                    Log.i(TAG, "survey data saved sucessfully"+object.getObjectId());
+
+
+                } else {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
 
             }
         });
@@ -227,7 +333,7 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
      * @param e
      * @return
      */
-    private Patient getPatientDetails(ParseObject object, ParseException e) {
+    public Patient getPatientDetails(ParseObject object, ParseException e) {
         Patient patient = new Patient();
         Log.i(TAG, "done: " + object.getString("age"));
 

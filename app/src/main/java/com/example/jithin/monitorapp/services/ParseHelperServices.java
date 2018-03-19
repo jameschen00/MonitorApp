@@ -1,6 +1,8 @@
 package com.example.jithin.monitorapp.services;
 
+import com.example.jithin.monitorapp.model.Patient;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 /**
@@ -10,6 +12,10 @@ import com.parse.ParseUser;
 public interface ParseHelperServices {
 
     String getUserType(ParseUser object, ParseException e);
+
+    Patient getPatientDetails(ParseObject object, ParseException e);
+
+
    /* void createUserDetails(ParseUser user);
     void createTDEE(ParseUser user);*/
 

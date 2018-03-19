@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.jithin.monitorapp.R;
 import com.example.jithin.monitorapp.notification.AlarmReciver;
+import com.example.jithin.monitorapp.services.PatientServiceImpl;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
@@ -25,16 +26,23 @@ public class PatientHomeActivity extends AppCompatActivity {
     private AlarmManager alarmManger;
     private PendingIntent pendingIntent;
 
+    private PatientServiceImpl patientService;
+    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_home);
 
+        mContext = PatientHomeActivity.this;
         // set tool bar
         /*toolbar = findViewById(R.id.patientHomeToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(ParseUser.getCurrentUser().getUsername());*/
 
+        patientService = new PatientServiceImpl(mContext);
+
+        patientService.calculateTDEE(ParseUser.getCurrentUser());
 
         //set up calender alarm
         setupAlarm(alarmManger);
