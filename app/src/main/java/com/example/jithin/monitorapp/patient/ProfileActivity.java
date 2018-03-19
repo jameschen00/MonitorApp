@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.jithin.monitorapp.R;
 import com.example.jithin.monitorapp.services.ParseHelperServicesImpl;
+import com.example.jithin.monitorapp.services.PatientServiceImpl;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -32,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Context mContext;
 
-    private ParseHelperServicesImpl parseHelperServices;
+    private PatientServiceImpl patientService;
 
 
     @Override
@@ -40,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        parseHelperServices = new ParseHelperServicesImpl(this);
+        patientService = new PatientServiceImpl(this);
 
         mContext = ProfileActivity.this;
         initializeWidgets();
@@ -147,12 +148,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                         String objid = object.getString("objid");
 
-                        parseHelperServices.updatingUserProfileDetails(objid,
+                        // calling services
+                        patientService.updatingUserProfileDetails(objid,
                                 age, weight, height, totalchol, hdlChol, symbp, havesmoker, havetreatment);
-
-
-
-                        /*updateUserDatabase(objid, age, weight, height, totalchol, hdlChol, symbp);*/
 
 
                     } else {

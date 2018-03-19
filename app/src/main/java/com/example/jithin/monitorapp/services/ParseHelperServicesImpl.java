@@ -18,13 +18,13 @@ import com.parse.ParseUser;
 public class ParseHelperServicesImpl implements ParseHelperServices{
 
     private ParseHelperRepositoryImpl parseHelperRepository;
-    private PatientRepositoryImpl patientRepository;
+
     private Context mContext;
 
     public ParseHelperServicesImpl(Context mContext) {
         this.mContext = mContext;
         parseHelperRepository = new ParseHelperRepositoryImpl(mContext);
-        patientRepository = new PatientRepositoryImpl(mContext);
+
     }
 
     @Override
@@ -32,9 +32,5 @@ public class ParseHelperServicesImpl implements ParseHelperServices{
         return parseHelperRepository.getUserType(object,e);
     }
 
-    @Override
-    public void updatingUserProfileDetails(String objid, String age, String weight, String height, String totalchol, String hdlChol, String symbp, String havesmoker, String havetreatment) {
-        patientRepository.updatingUserProfileDetails(objid, age,  weight,  height,  totalchol, hdlChol,  symbp,  havesmoker, havetreatment);
-    }
 
 }
