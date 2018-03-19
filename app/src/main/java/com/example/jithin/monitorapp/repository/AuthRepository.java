@@ -6,7 +6,7 @@ package com.example.jithin.monitorapp.repository;
 
 public interface AuthRepository {
 
-    void createUser();
+    void createUser(String username, String email,String password, String usertype);
     void loginUser(String username, String password);
     void logOut();
 }

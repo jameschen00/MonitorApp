@@ -28,4 +28,15 @@ public class ParseHelperServicesImpl implements ParseHelperServices{
     public String getUserType(ParseUser object, ParseException e) {
         return parseHelperRepository.getUserType(object,e);
     }
+
+   /* @Override
+    public void createUserDetails(ParseUser user) {
+        parseHelperRepository.createUserDetails(user);
+    }
+
+    @Override
+    public void createTDEE(ParseUser user) {
+
+        parseHelperRepository.createTDEE(user);
+    }*/
 }

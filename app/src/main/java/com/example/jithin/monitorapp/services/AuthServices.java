@@ -6,7 +6,7 @@ package com.example.jithin.monitorapp.services;
 
 public interface AuthServices {
 
-    void createUser();
+    void createUser(String username, String email,String password, String usertype);
     void loginUser(String username, String password);
     void logOut();
 }

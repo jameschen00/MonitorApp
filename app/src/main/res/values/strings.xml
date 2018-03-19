@@ -6,5 +6,27 @@
     <!-- Change the following strings as required -->
     <string name="back4app_app_id">Tq5HJvSYyTOQDdwjFWVV5GCY6Fk3XoQoA8At6vE2</string>
     <string name="back4app_client_key">6EX9DREop8Gdqxb45NscG0tpwDKOyJwGfaKQB77R</string>
+    <string name="db_userDetails">UserDetails</string>
+    <string name="c_age">age</string>
+    <string name="c_weight">weight</string>
+    <string name="c_height">height</string>
+    <string name="c_totaChol">totalchol</string>
+    <string name="c_hdlChol">hdlChol</string>
+    <string name="c_symbp">symbp</string>
+    <string name="c_owner">owner</string>
+    <string name="c_user">user</string>
+    <string name="c_smoker">smoker</string>
+    <string name="c_treatment">have_treatment</string>
+    <string name="c_riskScore">riskScore</string>
+    <string name="db_survey">Survey</string>
+    <string name="c_checkHead">checkHead</string>
+    <string name="c_nausea">checkNausea</string>
+    <string name="c_dizz">checkDizz</string>
+    <string name="c_faint">checkFaint</string>
+    <string name="c_fatigu">checkFatigue</string>
+    <string name="c_pressure">checkPressure</string>
+    <string name="c_work">work</string>
+    <string name="c_tdee">TDEE</string>
+    <string name="c_owner_survey">owner</string>
 
 </resources>

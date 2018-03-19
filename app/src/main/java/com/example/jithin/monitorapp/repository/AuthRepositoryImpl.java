@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.jithin.monitorapp.LoginActivity;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 /**
  * Created by jithin on 18/3/18.
@@ -33,7 +35,47 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public void createUser() {
+    public void createUser(String username, String email,String password, String usertype) {
+
+        ParseUser parseUser = new ParseUser();
+        parseUser.setUsername(username);
+        parseUser.setEmail(email);
+        parseUser.setPassword(password);
+
+        if (usertype == null) {
+            Toast.makeText(mContext, "Please select any user", Toast.LENGTH_SHORT).show();
+        }else {
+
+            parseUser.put("usertype", usertype);
+            parseUser.signUpInBackground(new SignUpCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+
+                        Toast.makeText(mContext, "user created successfully", Toast.LENGTH_SHORT).show();
+
+                        // TODO: 3/1/2018 locally taken user may need to change later
+                        ParseUser user = ParseUser.getCurrentUser();
+
+                        Log.i(TAG, "done: " + user);
+                        parseHelperRepository.createUserDetails(user);
+                        parseHelperRepository.createTDEE(user);
+
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent);
+
+                    }else {
+                        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
+
+            });
+
+        }
+
 
     }
 

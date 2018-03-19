@@ -10,6 +10,8 @@ import com.parse.ParseUser;
 public interface ParseHelperServices {
 
     String getUserType(ParseUser object, ParseException e);
+   /* void createUserDetails(ParseUser user);
+    void createTDEE(ParseUser user);*/
 
 
 }

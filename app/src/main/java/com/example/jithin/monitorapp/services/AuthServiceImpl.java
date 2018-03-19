@@ -28,9 +28,10 @@ public class AuthServiceImpl implements AuthServices {
         authRepository = new AuthRepositoryImpl(mContext);
     }
 
-    @Override
-    public void createUser() {
 
+    @Override
+    public void createUser(String username, String email, String password, String usertype) {
+        authRepository.createUser(username,email,password,usertype);
     }
 
     @Override
