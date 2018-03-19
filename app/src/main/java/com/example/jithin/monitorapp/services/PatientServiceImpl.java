@@ -23,4 +23,10 @@ public class PatientServiceImpl implements PatientService {
         patientRepository.updatingUserProfileDetails(objid, age,  weight,  height,  totalchol, hdlChol,  symbp,  havesmoker, havetreatment);
     }
 
+    @Override
+    public void uploadSurveyDataSecond(String objid, String headPoint, String nauseaPoint, String fatiguePoint, String faintingPoint, String dizzPoint, String pressurePoint, String spinnerData) {
+        patientRepository.uploadSurveyDataSecond(objid,headPoint,
+                nauseaPoint,fatiguePoint,faintingPoint,dizzPoint,pressurePoint,spinnerData);
+    }
+
 }

@@ -36,4 +36,13 @@
         <item>no</item>
     </string-array>
 
+    <!--spinner resources values-->
+    <string-array name="activityspinner">
+        <item>Sedantary</item>
+        <item>Lightly Active</item>
+        <item>Moderatively Active</item>
+        <item>Very Active</item>
+        <item>Extremely Active</item>
+    </string-array>
+
 </resources>

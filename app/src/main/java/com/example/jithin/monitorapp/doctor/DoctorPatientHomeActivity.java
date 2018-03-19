@@ -23,8 +23,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SendCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,9 +62,6 @@ public class DoctorPatientHomeActivity extends AppCompatActivity implements OnCh
         doctorService = new DoctorServiceImpl(this);
 
         initializeWidges();
-
-
-
 
 
     }
@@ -155,6 +159,37 @@ public class DoctorPatientHomeActivity extends AppCompatActivity implements OnCh
      * @param view
      */
     public void sendAlert(View view) {
+        Toast.makeText(this, "sending notification", Toast.LENGTH_SHORT).show();
+        String username = getIntent().getStringExtra("patientName");
+
+        ParseQuery query = ParseInstallation.getQuery();
+        query.whereEqualTo("username", username);
+        ParsePush push = new ParsePush();
+        push.setQuery(query);
+
+        try {
+            JSONObject dataobject = new JSONObject();
+            dataobject.put("alert", "Your are in danger");
+            dataobject.put("badge", "Increment");
+            dataobject.put("sound", "default");
+            dataobject.put("title", ParseUser.getCurrentUser().getUsername());
+            push.setData(dataobject);
+            push.sendInBackground(new SendCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(mContext, "Notification successfully send", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.i(TAG, "done: " + e.getMessage());
+                    }
+                }
+            });
+
+        } catch (JSONException e) {
+
+            Log.i(TAG, "sendAlert: the error is " + e.getMessage());
+        }
+
     }
 
     /**

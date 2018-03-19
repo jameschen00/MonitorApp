@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.jithin.monitorapp.register.RegisterActivity;
 import com.example.jithin.monitorapp.services.AuthServiceImpl;
+import com.parse.ParseInstallation;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,8 +30,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         authservices = new AuthServiceImpl(this);
-
         intializeWidgets();
+
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("GCMSenderId", "766495160293");
+        installation.saveInBackground();
     }
 
     /**

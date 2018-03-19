@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.jithin.monitorapp.R;
 import com.example.jithin.monitorapp.notification.AlarmReciver;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.util.Calendar;
@@ -37,6 +38,11 @@ public class PatientHomeActivity extends AppCompatActivity {
 
         //set up calender alarm
         setupAlarm(alarmManger);
+
+        // set up parse notification installation
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("username", ParseUser.getCurrentUser().getUsername());
+        installation.saveInBackground();
 
 
     }
