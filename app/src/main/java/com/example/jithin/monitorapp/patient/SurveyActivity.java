@@ -7,6 +7,8 @@ import com.example.jithin.monitorapp.R;
 
 public class SurveyActivity extends AppCompatActivity {
 
+    private static final String TAG = "SurveyActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
