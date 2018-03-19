@@ -9,8 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jithin.monitorapp.repository.AuthRepository;
-import com.example.jithin.monitorapp.repository.AuthRepositoryImpl;
+import com.example.jithin.monitorapp.register.RegisterActivity;
 import com.example.jithin.monitorapp.services.AuthServiceImpl;
 
 public class LoginActivity extends AppCompatActivity {
@@ -27,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_login);
 
         authservices = new AuthServiceImpl(this);
 
@@ -46,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         registerTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             }
         });
