@@ -26,7 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".register.RegisterActivity"></activity>
+        <activity android:name=".register.RegisterActivity" />
+        <activity android:name=".patient.PatientHomeActivity" />
+        <activity android:name=".admin.AdminHomeActivity" />
+        <activity android:name=".doctor.DoctorHomeActivity"></activity>
     </application>
 
 </manifest>

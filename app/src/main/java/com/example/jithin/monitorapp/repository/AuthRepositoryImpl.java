@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.jithin.monitorapp.LoginActivity;
+import com.example.jithin.monitorapp.admin.AdminHomeActivity;
+import com.example.jithin.monitorapp.doctor.DoctorHomeActivity;
+import com.example.jithin.monitorapp.patient.PatientHomeActivity;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
@@ -117,19 +120,19 @@ public class AuthRepositoryImpl implements AuthRepository {
 
                 if (object.getString("usertype").equals("patient")) {
 
-                    /*Intent intent = new Intent(mContext, PatientHomeActivity.class);
-                    mContext.startActivity(intent);*/
+                    Intent intent = new Intent(mContext, PatientHomeActivity.class);
+                    mContext.startActivity(intent);
                     Toast.makeText(mContext, "patient", Toast.LENGTH_SHORT).show();
 
 
                 } else if (object.getString("usertype").equals("admin")) {
-                   /* Intent intent = new Intent(mContext, AdminHomeActivity.class);
-                    mContext.startActivity(intent);*/
+                   Intent intent = new Intent(mContext, AdminHomeActivity.class);
+                    mContext.startActivity(intent);
                     Toast.makeText(mContext, "admin", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    /*Intent intent = new Intent(mContext, DoctorHomeActivity.class);
-                    mContext.startActivity(intent);*/
+                    Intent intent = new Intent(mContext, DoctorHomeActivity.class);
+                    mContext.startActivity(intent);
                     Toast.makeText(mContext, "doctor", Toast.LENGTH_SHORT).show();
                 }
 
