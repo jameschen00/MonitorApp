@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.jithin.monitorapp.R;
+import com.example.jithin.monitorapp.model.Patient;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -22,7 +23,7 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
 
     private static final String TAG = "ParseHelperRepositoryIm";
 
-    private Parse parse;
+    /*private Parse parse;*/
     private Context mContext;
 
     public ParseHelperRepositoryImpl(Context mContext) {
@@ -30,6 +31,12 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
         Parse.initialize(mContext);
     }
 
+    /**
+     * get user type
+     * @param object
+     * @param e
+     * @return
+     */
     @Override
     public String getUserType(ParseUser object, ParseException e) {
 
@@ -44,21 +51,6 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
 
                     usertype = object.getString("usertype");
 
-                  /*  if (object.getString("usertype").equals("patient")) {
-
-                        Intent intent = new Intent(mContext, PatientHomeActivity.class);
-                        mContext.startActivity(intent);
-
-
-                    } else if (object.getString("usertype").equals("admin")) {
-                        Intent intent = new Intent(mContext, AdminHomeActivity.class);
-                        mContext.startActivity(intent);
-
-                    } else {
-                        Intent intent = new Intent(mContext, DoctorHomeActivity.class);
-                        mContext.startActivity(intent);
-                    }*/
-
                 } else {
 
                     Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -67,6 +59,10 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
         return usertype;
     }
 
+    /**
+     * create user database
+     * @param user
+     */
     @Override
     public void createUserDetails(ParseUser user) {
         final ParseObject userdetatil = new ParseObject(mContext.getString(R.string.db_userDetails));
@@ -123,6 +119,10 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
 
     }
 
+    /**
+     * create total energy exp database
+     * @param user
+     */
     @Override
     public void createTDEE(ParseUser user) {
 
@@ -159,5 +159,324 @@ public class ParseHelperRepositoryImpl implements ParseHelperRepository{
 
             }
         });
+    }
+
+    /**
+     * calculate risk factor
+     */
+    @Override
+    public void CalculateRiskFactor() {
+       // parseHelper = new ParseHelper();
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("UserDetails");
+
+        // TODO: 3/1/2018 user may cause some problem you should check later
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+
+                if (e == null) {
+                    Patient patient = getPatientDetails(object, e);
+                    calculateTotalRiskFactor(patient);
+
+                } else {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+    }
+
+    /**
+     * save data to server
+     * @param riskscore
+     * @param objid
+     */
+    @Override
+    public void updateRiskScore(final int riskscore, String objid) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(mContext.getString(R.string.db_userDetails));
+
+        query.getInBackground(objid, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+
+                if (e == null) {
+
+                    object.put("riskScore", riskscore);
+                    object.saveInBackground();
+
+                    Log.i(TAG, "done: " + riskscore);
+
+
+                } else {
+
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
+    /**
+     * getting details of patient
+     * @param object
+     * @param e
+     * @return
+     */
+    private Patient getPatientDetails(ParseObject object, ParseException e) {
+        Patient patient = new Patient();
+        Log.i(TAG, "done: " + object.getString("age"));
+
+        int num = object.getInt("age");
+        int height = object.getInt("height");
+        int weight = object.getInt("weight");
+        int tchget = object.getInt("totalchol");
+        int hdl = object.getInt("hdlChol");
+        String smoke = object.getString("smoker");
+        String treatment = object.getString("have_treatment");
+        int symbp = object.getInt("symbp");
+        String objid = object.getString("objid");
+
+
+        patient.setPatient_age(num);
+        patient.setPatient_weight(weight);
+        patient.setpatient_height(height);
+        patient.setPatient_total_chol(tchget);
+        patient.setPatient_hdl_chol(hdl);
+        patient.setPatient_smoker(smoke);
+        patient.setPatient_objid(objid);
+        patient.setPatient_have_treatment(treatment);
+        patient.setPatient_symbp(symbp);
+
+        Log.i(TAG, "getPatientDetails: " + patient.toString());
+
+        return patient;
+    }
+
+    /**
+     * calculate rsik factor from patient details
+     * @param patient
+     */
+    private void calculateTotalRiskFactor(Patient patient) {
+
+        int num = patient.getPatient_age();
+        int hdl = patient.getPatient_hdl_chol();
+        int tchget = patient.getPatient_total_chol();
+        String smoke = patient.getPatient_smoker();
+        String treatment = patient.getPatient_have_treatment();
+        String objid = patient.getPatient_objid();
+
+        final int riskscore = checkAgePoints(num) + checkHdlPointns(hdl) + checkTchPoints(num, tchget) + checkSmoker(smoke) + checkTreatment(treatment);
+
+        // TODO: 3/2/2018 update riskscore
+        updateRiskScore(riskscore,objid);
+
+        Log.i(TAG, "totalriskFactor: " + riskscore);
+    }
+
+
+
+    /**
+     * checking age point
+     * @param num
+     * @return
+     */
+    private int checkAgePoints(int num) {
+        int agepoints = -1;
+
+        int age = num;
+
+        if (age >= 20 && age <= 34) {
+
+            agepoints = -9;
+
+        } else if (age >= 35 && age <= 39) {
+
+            agepoints = -4;
+        } else if (age >= 40 && age <= 44) {
+
+            agepoints = 0;
+        } else if (age >= 45 && age <= 49) {
+            agepoints = 3;
+        } else if (age >= 50 && age <= 54) {
+
+            agepoints = 6;
+        } else if (age >= 55 && age <= 59) {
+            agepoints = 8;
+
+        } else if (age >= 60 && age <= 64) {
+            agepoints = 10;
+
+        } else if (age >= 65 && age <= 69) {
+            agepoints = 12;
+
+        } else if (age >= 70 && age <= 74) {
+            agepoints = 14;
+
+        } else if (age >= 74 && age <= 79) {
+            agepoints = 16;
+
+        } else {
+            agepoints = 0;
+        }
+
+
+        Log.i(TAG, "checkAgePoints: " + agepoints);
+        return agepoints;
+    }
+
+    /**
+     * checkin hdl point for risk score
+     * @param hdl
+     * @return
+     */
+    private int checkHdlPointns(int hdl) {
+
+        int hdlpoints = -1;
+        int testchole = hdl;
+
+        if (testchole < 40) {
+            hdlpoints = 2;
+        } else if (testchole >= 40 && testchole <= 49) {
+            hdlpoints = 1;
+        } else if (testchole >= 50 && testchole <= 59) {
+            hdlpoints = 0;
+        } else if (testchole >= 60) {
+            hdlpoints = -1;
+        } else {
+            hdlpoints =0;
+            Log.i(TAG, "checkHdlPointns: invalid option");
+        }
+
+        Log.i(TAG, "checkHdlPointns: " + testchole);
+
+        Log.i(TAG, "checkHdlPointns: " + hdlpoints);
+
+        return hdlpoints;
+    }
+
+    /**
+     * check total cholerstrol and age point for total risk factor
+     * @param num
+     * @param tchget
+     * @return
+     */
+    private int checkTchPoints(int num, int tchget) {
+        int tchpoints = 1;
+        int age = num;
+        int tch = tchget;
+
+        if (age >= 20 && age <= 39) {
+
+            if (tch < 160) {
+                tchpoints = 0;
+            } else if (tch >= 169 && tch <= 199) {
+                tchpoints = 4;
+            } else if (tch >= 200 && tch < 239) {
+                tchpoints = 7;
+            } else if (tch >= 240 && tch <= 279) {
+                tchpoints = 9;
+            } else if (tch >= 280) {
+                tchpoints = 11;
+            }
+
+        } else if (age >= 40 && age <= 49) {
+
+            if (tch < 160) {
+                tchpoints = 0;
+            } else if (tch >= 169 && tch <= 199) {
+                tchpoints = 3;
+            } else if (tch >= 200 && tch < 239) {
+                tchpoints = 5;
+            } else if (tch >= 240 && tch <= 279) {
+                tchpoints = 6;
+            } else if (tch >= 280) {
+                tchpoints = 8;
+            }
+        } else if (age >= 50 && age <= 59) {
+
+            if (tch < 160) {
+                tchpoints = 0;
+            } else if (tch >= 169 && tch <= 199) {
+                tchpoints = 2;
+            } else if (tch >= 200 && tch < 239) {
+                tchpoints = 3;
+            } else if (tch >= 240 && tch <= 279) {
+                tchpoints = 4;
+            } else if (tch >= 280) {
+                tchpoints = 5;
+            }
+        } else if (age >= 60 && age <= 69) {
+            if (tch < 160) {
+                tchpoints = 0;
+            } else if (tch >= 169 && tch <= 199) {
+                tchpoints = 1;
+            } else if (tch >= 200 && tch < 239) {
+                tchpoints = 1;
+            } else if (tch >= 240 && tch <= 279) {
+                tchpoints = 2;
+            } else if (tch >= 280) {
+                tchpoints = 3;
+            }
+        } else if (age >= 70 && age <= 79) {
+
+            if (tch < 160) {
+                tchpoints = 0;
+            } else if (tch >= 169 && tch <= 199) {
+                tchpoints = 0;
+            } else if (tch >= 200 && tch < 239) {
+                tchpoints = 0;
+            } else if (tch >= 240 && tch <= 279) {
+                tchpoints = 1;
+            } else if (tch >= 280) {
+                tchpoints = 1;
+            }
+        } else {
+            tchpoints = 0;
+        }
+
+
+        Log.i(TAG, "checkTchPoints: " + tchpoints);
+
+        return tchpoints;
+    }
+
+    /**
+     * calculating smoker point for total risk factor
+     * @param smoke
+     * @return
+     */
+    private int checkSmoker(String smoke) {
+        int smokepoint;
+        if (smoke.equals("yes")) {
+            smokepoint = 1;
+        } else {
+            smokepoint = 0;
+        }
+
+        Log.i(TAG, "checkSmoker: " + smokepoint);
+
+        return smokepoint;
+    }
+
+    /**
+     * check have treatment before
+     * @param treatment
+     * @return
+     */
+    private int checkTreatment(String treatment) {
+        int tretPoint;
+        if (treatment.equals("yes")) {
+
+            tretPoint = 1;
+        } else {
+            tretPoint = 0;
+        }
+        Log.i(TAG, "checkTreatment: " + tretPoint);
+        return tretPoint;
     }
 }

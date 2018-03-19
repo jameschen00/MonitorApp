@@ -10,6 +10,7 @@ import com.parse.ParseUser;
 public interface ParseHelperServices {
 
     String getUserType(ParseUser object, ParseException e);
+    void updatingUserProfileDetails(String objid, final String age, final String weight, final String height, final String totalchol, final String hdlChol, final String symbp, final String havesmoker, final String havetreatment);
    /* void createUserDetails(ParseUser user);
     void createTDEE(ParseUser user);*/
 

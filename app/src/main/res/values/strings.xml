@@ -29,4 +29,11 @@
     <string name="c_tdee">TDEE</string>
     <string name="c_owner_survey">owner</string>
 
+
+    <!--spinners-->
+    <string-array name="YesOrNo">
+        <item>yes</item>
+        <item>no</item>
+    </string-array>
+
 </resources>

@@ -12,6 +12,8 @@ public interface ParseHelperRepository {
     String getUserType(ParseUser object, ParseException e);
     void createUserDetails(ParseUser user);
     void createTDEE(ParseUser user);
+    void CalculateRiskFactor();
+    void updateRiskScore(int riskscore, String objid);
 
 
 }

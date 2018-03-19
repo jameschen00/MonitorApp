@@ -25,7 +25,7 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     private static final String TAG = "AuthRepositoryImpl";
 
-    private Parse parse;
+
     private Context mContext;
 
     ParseHelperRepositoryImpl parseHelperRepository;
@@ -33,7 +33,7 @@ public class AuthRepositoryImpl implements AuthRepository {
     public AuthRepositoryImpl(Context mContext) {
 
         this.mContext = mContext;
-        Parse.initialize(mContext);
+       // Parse.initialize(mContext);
         parseHelperRepository = new ParseHelperRepositoryImpl(mContext);
     }
 

@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.example.jithin.monitorapp.repository.ParseHelperRepository;
 import com.example.jithin.monitorapp.repository.ParseHelperRepositoryImpl;
+import com.example.jithin.monitorapp.repository.PatientRepositoryImpl;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -17,11 +18,13 @@ import com.parse.ParseUser;
 public class ParseHelperServicesImpl implements ParseHelperServices{
 
     private ParseHelperRepositoryImpl parseHelperRepository;
+    private PatientRepositoryImpl patientRepository;
     private Context mContext;
 
     public ParseHelperServicesImpl(Context mContext) {
         this.mContext = mContext;
         parseHelperRepository = new ParseHelperRepositoryImpl(mContext);
+        patientRepository = new PatientRepositoryImpl(mContext);
     }
 
     @Override
@@ -29,14 +32,9 @@ public class ParseHelperServicesImpl implements ParseHelperServices{
         return parseHelperRepository.getUserType(object,e);
     }
 
-   /* @Override
-    public void createUserDetails(ParseUser user) {
-        parseHelperRepository.createUserDetails(user);
+    @Override
+    public void updatingUserProfileDetails(String objid, String age, String weight, String height, String totalchol, String hdlChol, String symbp, String havesmoker, String havetreatment) {
+        patientRepository.updatingUserProfileDetails(objid, age,  weight,  height,  totalchol, hdlChol,  symbp,  havesmoker, havetreatment);
     }
 
-    @Override
-    public void createTDEE(ParseUser user) {
-
-        parseHelperRepository.createTDEE(user);
-    }*/
 }
