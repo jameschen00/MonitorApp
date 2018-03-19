@@ -29,7 +29,9 @@
         <activity android:name=".register.RegisterActivity" />
         <activity android:name=".patient.PatientHomeActivity" />
         <activity android:name=".admin.AdminHomeActivity" />
-        <activity android:name=".doctor.DoctorHomeActivity"></activity>
+        <activity android:name=".doctor.DoctorHomeActivity" />
+        <activity android:name=".patient.ProfileActivity" />
+        <activity android:name=".patient.SurveyActivity"></activity>
     </application>
 
 </manifest>
