@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.jithin.monitorapp.R;
 
+import com.example.jithin.monitorapp.doctor.DoctorPatientHomeActivity;
 import com.example.jithin.monitorapp.model.Patientdetails;
 
 
@@ -58,13 +59,13 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
             @Override
             public void onClick(View view) {
 
-                /*Intent intent = new Intent(mContext, DoctorPatientHomeActivity.class);
+                Intent intent = new Intent(mContext, DoctorPatientHomeActivity.class);
 
                 intent.putExtra("patientName", patientUserName);
 
-                mContext.startActivity(intent);*/
+                mContext.startActivity(intent);
 
-                Toast.makeText(mContext, "pressed", Toast.LENGTH_SHORT).show();
+
 
 
             }

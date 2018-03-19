@@ -15,12 +15,13 @@ public class Patient {
     private String patient_have_treatment;
     private String patient_objid;
     private int patient_symbp;
+    private int riskScore;
 
 
     public Patient() {
     }
 
-    public Patient(int patient_age, int patient_weight, int patient_height, int patient_total_chol, int patient_hdl_chol, String patient_smoker, String patient_have_treatment, String patient_objid, int patient_symbp) {
+    public Patient(int patient_age, int patient_weight, int patient_height, int patient_total_chol, int patient_hdl_chol, String patient_smoker, String patient_have_treatment, String patient_objid, int patient_symbp, int riskScore) {
         this.patient_age = patient_age;
         this.patient_weight = patient_weight;
         this.patient_height = patient_height;
@@ -30,6 +31,19 @@ public class Patient {
         this.patient_have_treatment = patient_have_treatment;
         this.patient_objid = patient_objid;
         this.patient_symbp = patient_symbp;
+        this.riskScore = riskScore;
+    }
+
+    public Patient(int patient_age, int patient_weight, int patient_height, int patient_total_chol, int patient_hdl_chol, String patient_smoker, String patient_have_treatment, int patient_symbp, int riskScore) {
+        this.patient_age = patient_age;
+        this.patient_weight = patient_weight;
+        this.patient_height = patient_height;
+        this.patient_total_chol = patient_total_chol;
+        this.patient_hdl_chol = patient_hdl_chol;
+        this.patient_smoker = patient_smoker;
+        this.patient_have_treatment = patient_have_treatment;
+        this.patient_symbp = patient_symbp;
+        this.riskScore = riskScore;
     }
 
     public int getPatient_age() {
@@ -104,6 +118,22 @@ public class Patient {
         this.patient_symbp = patient_symbp;
     }
 
+    public int getPatient_height() {
+        return patient_height;
+    }
+
+    public void setPatient_height(int patient_height) {
+        this.patient_height = patient_height;
+    }
+
+    public int getRiskScore() {
+        return riskScore;
+    }
+
+    public void setRiskScore(int riskScore) {
+        this.riskScore = riskScore;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
@@ -116,6 +146,7 @@ public class Patient {
                 ", patient_have_treatment='" + patient_have_treatment + '\'' +
                 ", patient_objid='" + patient_objid + '\'' +
                 ", patient_symbp=" + patient_symbp +
+                ", riskScore=" + riskScore +
                 '}';
     }
 }

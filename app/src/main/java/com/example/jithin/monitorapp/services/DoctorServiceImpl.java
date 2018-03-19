@@ -2,8 +2,11 @@ package com.example.jithin.monitorapp.services;
 
 import android.content.Context;
 
+import com.example.jithin.monitorapp.model.Patient;
 import com.example.jithin.monitorapp.model.Patientdetails;
 import com.example.jithin.monitorapp.repository.DoctorRepositoryImpl;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -25,5 +28,10 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Patientdetails getPatForRec(ParseUser parseUser) {
         return doctorRepository.getPatForRec(parseUser);
+    }
+
+    @Override
+    public Patient getDetails(ParseObject object) {
+        return doctorRepository.getDetails(object);
     }
 }

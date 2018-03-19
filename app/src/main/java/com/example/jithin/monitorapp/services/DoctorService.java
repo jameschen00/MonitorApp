@@ -1,6 +1,9 @@
 package com.example.jithin.monitorapp.services;
 
+import com.example.jithin.monitorapp.model.Patient;
 import com.example.jithin.monitorapp.model.Patientdetails;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -11,4 +14,5 @@ import java.util.List;
 
 public interface DoctorService {
     Patientdetails getPatForRec(ParseUser parseUser);
+    Patient getDetails(ParseObject object);
 }
